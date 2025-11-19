@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* NAVBAR */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    padding: 20px 40px;
+    background: #ffffffd4;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+}
+.logo span { color: #0077ff; }
+
+nav a {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #333;
+    font-weight: 600;
+    transition: 0.2s;
+}
+nav a:hover { color: #0077ff; }
+
+/* HERO */
+.hero {
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1593713833241-d21881b9df62?auto=format&fit=crop&w=1500&q=80')
+    center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hero-content {
+    background: rgba(0,0,0,0.55);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+}
+
+.slide-up {
+    animation: slide 1.2s ease forwards;
+    opacity: 0;
+}
+
+@keyframes slide {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.btn {
+    padding: 12px 25px;
+    background: #0077ff;
+    border-radius: 6px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.btn:hover { background: #005fcc; }
+
+section {
+    padding: 120px 60px;
+    text-align: center;
+}
+
+h2 { font-size: 36px; margin-bottom: 20px; }
+
+.service-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    background: #f8f8f8;
+    padding: 25px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+.service-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    background: #eaf3ff;
+}
+
+.float-up {
+    animation: floatUp 1.2s ease forwards;
+    opacity: 0;
+}
+@keyframes floatUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.portfolio-grid {
+    display: grid;
+    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.img-card {
+    height: 260px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    transition: 0.4s ease;
+}
+.img-card:hover {
+    transform: scale(1.08);
+}
+
+.parallax {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out;
+}
+.parallax:hover {
+    transform: perspective(800px) rotateX(6deg) rotateY(-6deg);
+}
+
+form {
+    max-width: 500px;
+    display: flex;
+    margin: 20px auto;
+    flex-direction: column;
+    gap: 15px;
+}
+input, textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+textarea { height: 140px; }
+
+footer {
+    padding: 25px;
+    background: #111;
+    color: white;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1s ease;
+}
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+    .hero h1 { font-size: 32px; }
+}
