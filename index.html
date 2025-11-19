@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Star Investments | NJ Premier Real Estate</title>
+    <meta name="description" content="We find, furnish, and resell premium homes in Central New Jersey. Elite Star Investments offers a unique money-back guarantee.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#C5A059',
+                        navy: '#0B1120',
+                        slate: '#334155',
+                        light: '#F8FAFC',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 40px rgba(197, 160, 89, 0.15)',
+                        'card': '0 20px 40px -15px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #F8FAFC;
+        }
+
+        /* Smooth Scrolling & Selection */
+        html {
+            scroll-behavior: smooth;
+        }
+        ::selection {
+            background: #C5A059;
+            color: #0B1120;
+        }
+
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #C5A059, #F3E5AB);
+            z-index: 100;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px #C5A059;
+        }
+
+        /* Hero Background */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Darker, richer overlay for text contrast */
+            background: linear-gradient(to bottom, rgba(11, 17, 32, 0.8), rgba(11, 17, 32, 0.6)), url('https://images.unsplash.com/photo-1600596542815-27bfefd02379?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Refined Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .reveal-left.active, .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Button Styles */
+        .btn-gold {
+            background: #C5A059;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+        .btn-gold::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.4s ease;
+            z-index: -1;
+        }
+        .btn-gold:hover::before {
+            width: 100%;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(197, 160, 89, 0.4);
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Image Hover Zoom Effect */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom {
+            transition: transform 1.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .img-zoom-container:hover .img-zoom {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-600 antialiased">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 border-b border-white/5" id="navbar">
+        <div class="container mx-auto px-6 py-6 flex justify-between items-center transition-all duration-500" id="nav-container">
+            <a href="#" class="text-2xl font-serif font-bold text-white flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all duration-500">
+                    <i class="fa-solid fa-star text-gold text-xs group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <span class="tracking-widest text-lg uppercase">Elite Star</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-12">
+                <a href="#about" class="text-white/70 hover:text-gold transition text-xs font-bold tracking-[0.25em] uppercase relative group">
+                    Process
+                    <span class="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#gallery" class="text-white/70 hover:text-gold transition text-xs font-bold tracking-[0.25em] uppercase relative group">
+                    Gallery
+                    <span class="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#guarantee" class="text-white/70 hover:text-gold transition text-xs font-bold tracking-[0.25em] uppercase relative group">
+                    Promise
+                    <span class="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="px-8 py-3 border border-gold/50 text-gold hover:bg-gold hover:text-navy transition duration-500 rounded-sm uppercase text-xs font-bold tracking-[0.2em]">Contact</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white text-xl focus:outline-none hover:text-gold transition">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-navy absolute w-full border-t border-white/10 shadow-2xl backdrop-blur-xl bg-navy/95">
+            <div class="flex flex-col px-8 py-8 space-y-6">
+                <a href="#about" class="text-white/80 hover:text-gold uppercase tracking-widest text-xs">Process</a>
+                <a href="#gallery" class="text-white/80 hover:text-gold uppercase tracking-widest text-xs">Gallery</a>
+                <a href="#guarantee" class="text-white/80 hover:text-gold uppercase tracking-widest text-xs">Promise</a>
+                <a href="#contact" class="text-gold font-bold uppercase tracking-widest text-xs">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center text-center px-4 overflow-hidden">
+        <div id="canvas-container">
+            <canvas id="star-canvas"></canvas>
+        </div>
+        
+        <div class="relative z-10 max-w-6xl mx-auto text-white mt-12">
+            <div class="mb-10 inline-block reveal">
+                <div class="flex items-center justify-center gap-4">
+                    <div class="h-px w-8 bg-gold/50"></div>
+                    <span class="text-gold/90 text-xs font-bold tracking-[0.3em] uppercase">Est. 2023 • New Jersey</span>
+                    <div class="h-px w-8 bg-gold/50"></div>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-medium mb-8 leading-tight reveal" style="transition-delay: 0.1s;">
+                The Art of <br><span class="text-gold italic font-light">Transformation.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300/90 mb-12 font-light tracking-wide max-w-2xl mx-auto leading-relaxed reveal" style="transition-delay: 0.2s;">
+                We acquire and reimagine exceptional properties, creating turnkey furnished masterpieces for the modern lifestyle.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-6 reveal" style="transition-delay: 0.3s;">
+                <a href="#gallery" class="btn-gold text-navy px-10 py-4 rounded-sm font-bold tracking-widest uppercase shadow-glow">
+                    View Our Work
+                </a>
+                <a href="#contact" class="px-10 py-4 border border-white/20 text-white bg-white/5 backdrop-blur-sm rounded-sm font-bold tracking-widest uppercase hover:bg-white hover:text-navy transition duration-500">
+                    Sell Your Home
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-pulse text-white/30">
+            <a href="#about" class="flex flex-col items-center gap-3 text-[10px] uppercase tracking-[0.3em] hover:text-gold transition">
+                <span>Discover</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- The Process (About) -->
+    <section id="about" class="py-40 bg-white relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col items-center mb-24 reveal">
+                <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4">Methodology</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-medium text-navy text-center">Elevating Standards</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-16">
+                <!-- Step 1 -->
+                <div class="group text-center reveal-left">
+                    <div class="w-24 h-24 mx-auto mb-8 relative">
+                        <div class="absolute inset-0 bg-navy/5 rounded-full group-hover:bg-gold/10 transition duration-500"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-3xl text-navy group-hover:text-gold transition duration-500">
+                            <i class="fa-solid fa-magnifying-glass-location"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-serif font-bold text-navy mb-4">Strategic Acquisition</h4>
+                    <p class="text-gray-500 text-sm leading-loose font-light px-4">
+                        We identify high-potential properties in premier New Jersey locations, ensuring a solid foundation for luxury living.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="group text-center reveal">
+                    <div class="w-24 h-24 mx-auto mb-8 relative">
+                        <div class="absolute inset-0 bg-navy/5 rounded-full group-hover:bg-gold/10 transition duration-500"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-3xl text-navy group-hover:text-gold transition duration-500">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-serif font-bold text-navy mb-4">Curated Design</h4>
+                    <p class="text-gray-500 text-sm leading-loose font-light px-4">
+                        Our designers reimagine layouts and select premium materials, creating fully furnished spaces that inspire.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="group text-center reveal-right">
+                    <div class="w-24 h-24 mx-auto mb-8 relative">
+                        <div class="absolute inset-0 bg-navy/5 rounded-full group-hover:bg-gold/10 transition duration-500"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-3xl text-navy group-hover:text-gold transition duration-500">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-serif font-bold text-navy mb-4">Turnkey Delivery</h4>
+                    <p class="text-gray-500 text-sm leading-loose font-light px-4">
+                        We present market-ready homes where every detail is finalized, allowing for an effortless transition to luxury.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Decorative Gallery (Replaces Portfolio) -->
+    <section id="gallery" class="py-20 bg-light border-y border-slate-200 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+                <div>
+                    <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Aesthetic</span>
+                    <h3 class="text-4xl md:text-5xl font-serif font-medium text-navy">Visual Inspiration</h3>
+                </div>
+                <div class="hidden md:block mb-2">
+                    <span class="text-xs text-gray-400 tracking-widest uppercase">Design • Architecture • Living</span>
+                </div>
+            </div>
+
+            <!-- Masonry-style Layout -->
+            <div class="grid md:grid-cols-3 gap-8 h-[600px] md:h-[500px]">
+                <!-- Image 1 -->
+                <div class="img-zoom-container relative rounded-lg h-full overflow-hidden shadow-lg group reveal-left">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Interior" class="img-zoom w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-navy/20 group-hover:bg-navy/0 transition duration-700"></div>
+                </div>
+                
+                <!-- Image 2 -->
+                <div class="img-zoom-container relative rounded-lg h-full overflow-hidden shadow-lg group reveal">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Living" class="img-zoom w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-navy/20 group-hover:bg-navy/0 transition duration-700"></div>
+                    <!-- Overlay Text -->
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-navy/90 to-transparent text-white opacity-0 group-hover:opacity-100 transition duration-500">
+                        <p class="font-serif text-2xl italic">Modern Elegance</p>
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="img-zoom-container relative rounded-lg h-full overflow-hidden shadow-lg group reveal-right">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gourmet Kitchen" class="img-zoom w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-navy/20 group-hover:bg-navy/0 transition duration-700"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Guarantee Section -->
+    <section id="guarantee" class="py-32 bg-navy relative overflow-hidden">
+        <!-- Abstract Background Blobs -->
+        <div class="absolute top-0 right-0 w-[50rem] h-[50rem] bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-500/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="glass-panel p-12 md:p-24 text-center max-w-4xl mx-auto rounded-sm reveal">
+                <div class="w-16 h-16 border border-gold/30 rounded-full flex items-center justify-center mx-auto mb-10 text-gold text-2xl">
+                    <i class="fa-solid fa-signature"></i>
+                </div>
+                
+                <h2 class="text-3xl md:text-5xl font-serif text-white mb-10">The Elite Promise</h2>
+                
+                <p class="text-gray-300 text-lg md:text-xl mb-16 leading-loose font-light">
+                    Confidence is the ultimate luxury. We stand behind our craftsmanship with a unique <span class="text-gold">Buy-Back Guarantee</span>. If major structural issues arise within 6 months that our warranty implies but doesn't cover, we will buy the home back at the sale price.*
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-8 md:gap-16 text-xs tracking-[0.2em] uppercase text-gray-400">
+                    <div class="flex items-center gap-3">
+                        <div class="w-1 h-1 bg-gold rounded-full"></div>
+                        <span>Transparency</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-1 h-1 bg-gold rounded-full"></div>
+                        <span>Quality</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-1 h-1 bg-gold rounded-full"></div>
+                        <span>Integrity</span>
+                    </div>
+                </div>
+                
+                <p class="mt-16 text-[10px] text-gray-600 tracking-widest">*Terms apply. Subject to verification.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-40 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-24 items-start">
+                <!-- Info Side -->
+                <div class="reveal-left sticky top-32">
+                    <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Inquiries</span>
+                    <h3 class="text-5xl font-serif font-medium text-navy mb-10">Begin the Conversation</h3>
+                    <p class="text-gray-500 mb-12 text-lg font-light leading-relaxed">
+                        Whether purchasing a finished masterpiece or selling a property for cash, we provide a discrete, professional experience.
+                    </p>
+                    
+                    <div class="space-y-10">
+                        <div class="group flex items-start gap-6">
+                            <span class="text-gold text-xl group-hover:translate-x-2 transition duration-300"><i class="fa-solid fa-arrow-right-long"></i></span>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2">Direct Line</p>
+                                <span class="text-navy text-2xl font-serif">732-835-6385</span>
+                            </div>
+                        </div>
+                        <div class="group flex items-start gap-6">
+                            <span class="text-gold text-xl group-hover:translate-x-2 transition duration-300"><i class="fa-solid fa-arrow-right-long"></i></span>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2">Headquarters</p>
+                                <span class="text-navy text-2xl font-serif">South Brunswick, NJ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <form action="https://formspree.io/f/mdkbdner" method="POST" class="bg-[#FAFAFA] p-10 md:p-16 reveal-right border border-gray-100">
+                    <div class="grid grid-cols-2 gap-8 mb-8">
+                        <div class="group">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-3 group-focus-within:text-gold transition">First Name</label>
+                            <input type="text" name="firstName" required class="w-full bg-white border-b border-gray-200 py-3 focus:outline-none focus:border-gold transition-colors text-navy font-serif text-lg placeholder-gray-200" placeholder="Jane">
+                        </div>
+                        <div class="group">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-3 group-focus-within:text-gold transition">Last Name</label>
+                            <input type="text" name="lastName" required class="w-full bg-white border-b border-gray-200 py-3 focus:outline-none focus:border-gold transition-colors text-navy font-serif text-lg placeholder-gray-200" placeholder="Doe">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8 group">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-3 group-focus-within:text-gold transition">Email</label>
+                        <input type="email" name="email" required class="w-full bg-white border-b border-gray-200 py-3 focus:outline-none focus:border-gold transition-colors text-navy font-serif text-lg placeholder-gray-200" placeholder="jane@example.com">
+                    </div>
+
+                    <div class="mb-8 group">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-3 group-focus-within:text-gold transition">Interest</label>
+                        <select name="interest" class="w-full bg-white border-b border-gray-200 py-3 focus:outline-none focus:border-gold transition-colors text-navy font-serif text-lg">
+                            <option>Acquisition (Buying)</option>
+                            <option>Disposition (Selling)</option>
+                            <option>General Inquiry</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-12 group">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-3 group-focus-within:text-gold transition">Message</label>
+                        <textarea name="message" required class="w-full bg-white border-b border-gray-200 py-3 focus:outline-none focus:border-gold transition-colors text-navy font-serif text-lg h-24 resize-none placeholder-gray-200" placeholder="How may we assist?"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full btn-gold text-navy font-bold py-5 uppercase tracking-[0.2em] text-xs">
+                        Send Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer class="bg-navy text-white py-20 border-t border-white/5">
+        <div class="container mx-auto px-6 flex flex-col items-center justify-center">
+            <div class="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center mb-8 text-gold">
+                <i class="fa-solid fa-star text-xs"></i>
+            </div>
+            <h2 class="text-2xl font-serif font-medium mb-2">Elite Star</h2>
+            <p class="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-12">Investments</p>
+            
+            <div class="flex gap-8 mb-12">
+                <a href="#about" class="text-gray-400 hover:text-white text-xs transition">Process</a>
+                <a href="#gallery" class="text-gray-400 hover:text-white text-xs transition">Gallery</a>
+                <a href="#contact" class="text-gray-400 hover:text-white text-xs transition">Contact</a>
+            </div>
+
+            <p class="text-[10px] text-gray-700 tracking-wide">
+                &copy; 2023 Elite Star Investments. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Scroll Progress & Navbar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+            
+            // Navbar transition
+            const navbar = document.getElementById('navbar');
+            const navContainer = document.getElementById('nav-container');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-navy/95', 'backdrop-blur-md');
+                navbar.classList.remove('border-white/5');
+                navContainer.classList.remove('py-6');
+                navContainer.classList.add('py-4');
+            } else {
+                navbar.classList.remove('bg-navy/95', 'backdrop-blur-md');
+                navbar.classList.add('border-white/5');
+                navContainer.classList.remove('py-4');
+                navContainer.classList.add('py-6');
+            }
+        };
+
+        // 2. Mobile Menu
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars-staggered');
+            } else {
+                icon.classList.remove('fa-bars-staggered');
+                icon.classList.add('fa-xmark');
+            }
+        });
+
+        // 3. Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+            observer.observe(el);
+        });
+
+
+        // 4. Ambient Particle Animation (Subtle & Slow)
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor(directionX, directionY, size, color) {
+                this.x = Math.random() * (innerWidth - size * 2) - (size * 2);
+                this.y = Math.random() * (innerHeight - size * 2) - (size * 2);
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = `rgba(197, 160, 89, ${this.opacity})`;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 20000; // Low density
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 1.5) + 0.5;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.1) - 0.05; // Very slow
+                let directionY = (Math.random() * 0.1) - 0.05;
+                let color = '#C5A059';
+
+                particlesArray.push(new Particle(directionX, directionY, size, color));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = 'rgba(197, 160, 89,' + (opacityValue * 0.05) + ')'; // Barely visible lines
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', function() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+
+        init();
+        animate();
+
+    </script>
+</body>
+</html>
